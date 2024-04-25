@@ -1,4 +1,8 @@
-import * as CategoriesConstants from "../Constants/CategoriesConstants";
+import * as CategoriesConstants from "../Constants/CategoriesConstant";
+import {
+  DELETE_CATEGORY_SUCCESS,
+  DELETE_CATEGORY_FAIL,
+} from "./../Constants/CategoriesConstant";
 
 // GET ALL CATEGORIES
 
@@ -7,14 +11,12 @@ export const getAllCategoriesReducer = (state = { categories: [] }, action) => {
     case CategoriesConstants.GET_ALL_CATEGORIES_REQUEST:
       return { isLoading: true };
 
-    case CategoriesConstants.GET_ALL_CATEGORIES_REQUEST:
+    case CategoriesConstants.GET_ALL_CATEGORIES_SUCCESS:
       return { isLoading: false, categories: action.payload };
 
     case CategoriesConstants.GET_ALL_CATEGORIES_FAIL:
       return { isLoading: false, isError: action.payload };
 
-    case CategoriesConstants.GET_ALL_CATEGORIES_RESET:
-      return {};
     default:
       return state;
   }
@@ -48,13 +50,13 @@ export const updateCategoryReducer = (state = {}, action) => {
       return {
         isLoading: true,
       };
-    case CategoriesConstants.UPDATE_CATEGORY_REQUEST:
+    case CategoriesConstants.UPDATE_CATEGORY_SUCCESS:
       return { isLoading: false, isSuccess: true };
 
-    case CategoriesConstants.UPDATE_CATEGORY_REQUEST:
+    case CategoriesConstants.UPDATE_CATEGORY_FAIL:
       return { isLoading: false, isError: action.payload };
 
-    case CategoriesConstants.UPDATE_CATEGORY_REQUEST:
+    case CategoriesConstants.UPDATE_CATEGORY_RESET:
       return {};
     default:
       return state;
@@ -69,13 +71,13 @@ export const deleteCategoryReducer = (state = {}, action) => {
       return {
         isLoading: true,
       };
-    case CategoriesConstants.DELETE_CATEGORY_REQUEST:
+    case CategoriesConstants.DELETE_CATEGORY_SUCCESS:
       return { isLoading: false, isSuccess: true };
 
-    case CategoriesConstants.DELETE_CATEGORY_REQUEST:
+    case CategoriesConstants.DELETE_CATEGORY_FAIL:
       return { isLoading: false, isError: action.payload };
 
-    case CategoriesConstants.DELETE_CATEGORY_REQUEST:
+    case CategoriesConstants.DELETE_CATEGORY_RESET:
       return {};
     default:
       return state;

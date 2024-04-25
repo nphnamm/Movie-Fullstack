@@ -9,7 +9,7 @@ import { ErrorsAction, tokenProtection } from "./../Protection";
 // get all Categories action
 export const getAllCategoriesAction = () => async (dispatch) => {
   try {
-    dispatch({ type: CategoriesConstants.GET_ALL_CATEGORIES_FAIL });
+    dispatch({ type: CategoriesConstants.GET_ALL_CATEGORIES_REQUEST });
     const data = await categoriesAPIs.getCategoriesService();
     dispatch({
       type: CategoriesConstants.GET_ALL_CATEGORIES_SUCCESS,
@@ -17,6 +17,7 @@ export const getAllCategoriesAction = () => async (dispatch) => {
     });
   } catch (error) {
     ErrorsAction(error, dispatch, CategoriesConstants.GET_ALL_CATEGORIES_FAIL);
+    console.log("check error", error);
   }
 };
 
@@ -42,6 +43,7 @@ export const updateCategoryAction =
     try {
       dispatch({ type: CategoriesConstants.UPDATE_CATEGORY_REQUEST });
       const data = await categoriesAPIs.updateCategoryService(
+        id,
         title,
         tokenProtection(getState)
       );
@@ -57,10 +59,13 @@ export const deleteCategoryAction = (id) => async (dispatch, getState) => {
   try {
     dispatch({ type: CategoriesConstants.DELETE_CATEGORY_REQUEST });
     const data = await categoriesAPIs.deleteCategoryService(
-      title,
+      id,
       tokenProtection(getState)
     );
-    dispatch({ type: CategoriesConstants.DELETE_CATEGORY_SUCCESS });
+    dispatch({
+      type: CategoriesConstants.DELETE_CATEGORY_SUCCESS,
+      payload: data,
+    });
     toast.success("Category deleted successfully");
   } catch (error) {
     ErrorsAction(error, dispatch, CategoriesConstants.DELETE_CATEGORY_FAIL);

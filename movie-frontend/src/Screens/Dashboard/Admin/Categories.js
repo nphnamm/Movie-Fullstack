@@ -6,31 +6,53 @@ import { HiPlus, HiPlusCircle } from "react-icons/hi";
 import Table2 from "../../../Components/Table2";
 import { CategoriesData } from "../../../Data/CategoriesData";
 import CategoryModal from "../../../Components/Modals/CategoryModal";
-import { useDispatch } from "react-redux";
-import { getAllCategoriesAction } from "../../../Redux/Actions/CategoriesActions";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  deleteCategoryAction,
+  getAllCategoriesAction,
+} from "../../../Redux/Actions/CategoriesActions";
 import Loader from "../../../Components/Notifications/Loader";
 import { Empty } from "../../../Components/Notifications/Empty";
+import { toast } from "react-hot-toast";
 
 export default function Categories() {
   const [modalOpen, setModalOpen] = useState(false);
   const [category, setCategory] = useState();
   const dispatch = useDispatch();
 
+  //get all categories
   const { categories, isLoading } = useSelector(
     (state) => state.categoryGetAll
   );
+
+  //delete category
+  const { isSuccess, isError } = useSelector((state) => state.categoryDelete);
+  const adminDeleteCategory = (id) => {
+    if (window.confirm("Are you sure you want to delete this category")) {
+      dispatch(deleteCategoryAction(id));
+    }
+  };
 
   const onEditFunction = (id) => {
     setCategory(id);
     setModalOpen(!modalOpen);
   };
+
   useEffect(() => {
     // get all categories
     dispatch(getAllCategoriesAction());
+
+    if (isError) {
+      toast.error(isError);
+      dispatch({
+        type: "DELETE_CATEGORY_RESET",
+      });
+    }
+
     if (modalOpen === false) {
       setCategory();
     }
-  }, [modalOpen, dispatch]);
+  }, [modalOpen, dispatch, isError, isSuccess]);
   return (
     <SideBar>
       <CategoryModal
@@ -56,9 +78,10 @@ export default function Categories() {
             data={categories}
             users={false}
             onEditFunction={onEditFunction}
+            OnDeleteFunction={adminDeleteCategory}
           />
         ) : (
-          <Empty message="No Movies found" />
+          <Empty message="You have no category" />
         )}
       </div>
     </SideBar>

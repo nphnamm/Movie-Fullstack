@@ -22,7 +22,7 @@ const rootReducer = combineReducers({
   categoryDelete: Categories.deleteCategoryReducer,
 
   //Movie reducers
-  getAllMovies: Movies.moviesListReducer,
+  // getAllMovies: Movies.moviesListReducer,
 });
 
 //get userInfo from localStorage

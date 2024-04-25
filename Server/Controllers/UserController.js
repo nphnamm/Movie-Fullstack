@@ -162,8 +162,7 @@ const changeUserPassword = asyncHandler(async (req, res) => {
       await user.save();
       res.json({ message: "Password change!" });
     } else {
-      res.status(401);
-      throw new Error("Invalid email or password");
+      res.status(401).json({ message: "Invalid email or password!" });
     }
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -218,8 +217,6 @@ const addLikedMovies = asyncHandler(async (req, res) => {
       await user.save();
 
       res.json({ message: "Add movie successfully" }, user.likedMovies);
-
-      throw new Error("Add Movie successfully");
     } else {
       res.status(400);
       throw new Error("Movie not found");

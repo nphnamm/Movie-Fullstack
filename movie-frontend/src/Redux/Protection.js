@@ -10,3 +10,16 @@ export const ErrorsAction = (error, dispatch, action) => {
   }
   return dispatch({ type: action, payload: message });
 };
+
+// api token protection
+export const tokenProtection = (getState) => {
+  const {
+    userLogin: { userInfo },
+  } = getState();
+  // console.log("check token-2:", userInfo);
+  if (!userInfo?.token) {
+    return null;
+  } else {
+    return userInfo?.token;
+  }
+};

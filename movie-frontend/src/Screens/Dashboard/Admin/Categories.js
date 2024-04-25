@@ -6,20 +6,31 @@ import { HiPlus, HiPlusCircle } from "react-icons/hi";
 import Table2 from "../../../Components/Table2";
 import { CategoriesData } from "../../../Data/CategoriesData";
 import CategoryModal from "../../../Components/Modals/CategoryModal";
+import { useDispatch } from "react-redux";
+import { getAllCategoriesAction } from "../../../Redux/Actions/CategoriesActions";
+import Loader from "../../../Components/Notifications/Loader";
+import { Empty } from "../../../Components/Notifications/Empty";
 
 export default function Categories() {
   const [modalOpen, setModalOpen] = useState(false);
   const [category, setCategory] = useState();
+  const dispatch = useDispatch();
+
+  const { categories, isLoading } = useSelector(
+    (state) => state.categoryGetAll
+  );
 
   const onEditFunction = (id) => {
     setCategory(id);
     setModalOpen(!modalOpen);
   };
   useEffect(() => {
+    // get all categories
+    dispatch(getAllCategoriesAction());
     if (modalOpen === false) {
       setCategory();
     }
-  }, [modalOpen]);
+  }, [modalOpen, dispatch]);
   return (
     <SideBar>
       <CategoryModal
@@ -38,12 +49,17 @@ export default function Categories() {
             Create
           </button>
         </div>
-
-        <Table2
-          data={CategoriesData}
-          users={false}
-          onEditFunction={onEditFunction}
-        />
+        {isLoading ? (
+          <Loader />
+        ) : categories?.length > 0 ? (
+          <Table2
+            data={categories}
+            users={false}
+            onEditFunction={onEditFunction}
+          />
+        ) : (
+          <Empty message="No Movies found" />
+        )}
       </div>
     </SideBar>
   );

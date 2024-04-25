@@ -45,7 +45,7 @@ export default function Login() {
     }
     if (isError) {
       toast.error(isError);
-      dispatch({ type: "USER_LOGIN_RESET" });
+      dispatch({ type: "USER_REGISTER_RESET" });
     }
   });
   return (
@@ -60,6 +60,7 @@ export default function Login() {
             alt="logo"
             className="w-full h-12 object-contain"
           />
+
           <div className="w-full">
             <Input
               label="Email"

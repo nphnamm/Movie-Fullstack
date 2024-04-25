@@ -24,6 +24,7 @@ import ScrollOnTop from "./ScrollOnTop";
 import SidebarContext from "./Context/DrawerContext";
 import ToastContainer from "./Components/Notifications/ToastContainer";
 import DrawerContext from "./Context/DrawerContext";
+import { AdminProtectedRouter, ProtectedRouter } from "./ProtectedRouter";
 function App() {
   AOS.init();
   return (
@@ -32,6 +33,7 @@ function App() {
         <ToastContainer />
         <ScrollOnTop>
           <Routes>
+            {/**********PUBLIC ROUTERS*********/}
             <Route path="/" element={<HomeScreen />}></Route>
             <Route path="/about-us" element={<AboutUs />}></Route>
             <Route path="/contact-us" element={<ContactUs />}></Route>
@@ -40,17 +42,25 @@ function App() {
             <Route path="/watch/:id" element={<WatchPage />}></Route>
             <Route path="/login" element={<Login />}></Route>
             <Route path="/register" element={<Register />}></Route>
-            <Route path="/profile" element={<Profile />}></Route>
-            <Route path="/password" element={<Password />}></Route>
-            <Route path="/favorites" element={<FavoritiesMovies />}></Route>
-            <Route path="/movieslist" element={<MovieList />}></Route>
-            <Route path="/dashboard" element={<Dashboard />}></Route>
-            <Route path="/categories" element={<Categories />}></Route>
-            <Route path="/users" element={<Users />}></Route>
-            <Route path="/addmovie" element={<AddMovie />}></Route>
-            <Route path="/test" element={<Test />}></Route>
-
             <Route path="*" element={<NotFound />}></Route>
+
+            {/**********PRIVATE ROUTERS*********/}
+
+            <Route element={<ProtectedRouter />}>
+              <Route path="/profile" element={<Profile />}></Route>
+              <Route path="/password" element={<Password />}></Route>
+              <Route path="/favorites" element={<FavoritiesMovies />}></Route>
+            </Route>
+
+            {/**********ADMIN ROUTERS*********/}
+            <Route element={<AdminProtectedRouter />}>
+              <Route path="/movieslist" element={<MovieList />}></Route>
+              <Route path="/dashboard" element={<Dashboard />}></Route>
+              <Route path="/categories" element={<Categories />}></Route>
+              <Route path="/users" element={<Users />}></Route>
+              <Route path="/addmovie" element={<AddMovie />}></Route>
+              <Route path="/test" element={<Test />}></Route>
+            </Route>
           </Routes>
         </ScrollOnTop>
       </DrawerContext>

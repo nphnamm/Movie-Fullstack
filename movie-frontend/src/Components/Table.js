@@ -13,7 +13,7 @@ const Rows = (movie, i, admin) => {
         <div className="w-12 p-1 bg-dry border border-border h-12 rounded overflow-hidden">
           <img
             className="h-full w-full object-cover"
-            src={`/images/movies/${movie.image}`}
+            src={movie?.image ? movie?.image : "/images/user.png"}
             alt={movie?.name}
           />
         </div>

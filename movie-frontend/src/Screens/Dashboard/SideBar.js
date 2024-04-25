@@ -1,62 +1,111 @@
 import React from "react";
 import { BsFillGridFill } from "react-icons/bs";
 import { FaHeart, FaListAlt, FaUser } from "react-icons/fa";
-import { RiMovie2Fill, RiLockPasswordLine } from "react-icons/ri";
+import {
+  RiMovie2Fill,
+  RiLockPasswordLine,
+  RiLogoutCircleLine,
+} from "react-icons/ri";
 import { FiSettings } from "react-icons/fi";
 import { HiViewGridAdd } from "react-icons/hi";
 import Layout from "../../Layout/Layout";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-hot-toast";
+import { logoutAction } from "../../Redux/Actions/userActions";
 
 export default function SideBar({ children }) {
-  const SideLinks = [
-    {
-      name: "Dashboard",
-      link: "/dashboard",
-      icon: BsFillGridFill,
-    },
-    {
-      name: "Movie List",
-      link: "/movieslist",
-      icon: FaListAlt,
-    },
-    {
-      name: "Add Movie",
-      link: "/addmovie",
-      icon: RiMovie2Fill,
-    },
-    {
-      name: "Categories",
-      link: "/categories",
-      icon: HiViewGridAdd,
-    },
-    {
-      name: "User",
-      link: "/users",
-      icon: FaUser,
-    },
-    {
-      name: "Update Profile",
-      link: "/profile",
-      icon: FiSettings,
-    },
-    {
-      name: "Favorities Movies",
-      link: "/favorites",
-      icon: FaHeart,
-    },
-    {
-      name: "Changed Password",
-      link: "/password",
-      icon: RiLockPasswordLine,
-    },
-  ];
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { userInfo } = useSelector((state) => state.userLogin);
+  //logout function
+
+  const logOut = () => {
+    dispatch(logoutAction());
+
+    navigate("/login");
+    toast.success("Logged out successfully");
+  };
+
+  const { isLoading, isError, isSuccess } = useSelector(
+    (state) => state.userLogin
+  );
+  //log out
+  const logoutHandler = () => {
+    dispatch(logoutAction());
+    toast.success("Logged out successfully");
+    navigate("/login");
+  };
+
+  const SideLinks = userInfo?.isAdmin
+    ? [
+        {
+          name: "Dashboard",
+          link: "/dashboard",
+          icon: BsFillGridFill,
+        },
+        {
+          name: "Movie List",
+          link: "/movieslist",
+          icon: FaListAlt,
+        },
+        {
+          name: "Add Movie",
+          link: "/addmovie",
+          icon: RiMovie2Fill,
+        },
+        {
+          name: "Categories",
+          link: "/categories",
+          icon: HiViewGridAdd,
+        },
+        {
+          name: "User",
+          link: "/users",
+          icon: FaUser,
+        },
+        {
+          name: "Update Profile",
+          link: "/profile",
+          icon: FiSettings,
+        },
+        {
+          name: "Favorities Movies",
+          link: "/favorites",
+          icon: FaHeart,
+        },
+        {
+          name: "Changed Password",
+          link: "/password",
+          icon: RiLockPasswordLine,
+        },
+      ]
+    : userInfo
+    ? [
+        {
+          name: "Update Profile",
+          link: "/profile",
+          icon: FiSettings,
+        },
+        {
+          name: "Favorities Movies",
+          link: "/favorites",
+          icon: FaHeart,
+        },
+        {
+          name: "Changed Password",
+          link: "/password",
+          icon: RiLockPasswordLine,
+        },
+      ]
+    : [];
   const active = "bg-dryGray text-subMain";
   const hover = "hover:text-white hover:bg-main";
   const inActive =
     "rounded font-medium text-sm transitions flex gap-3 items-center p-4";
   const Hover = ({ isActive }) =>
     isActive ? `${active} ${inActive}` : `${inActive} ${hover}`;
-  console.log("check :", Hover);
+  // console.log("check :", Hover);
   return (
     <Layout>
       <div className="min-h-screen container mx-auto px-2">
@@ -70,6 +119,12 @@ export default function SideBar({ children }) {
                 </NavLink>
               ))
             }
+            <button
+              onClick={logoutHandler}
+              className={`${inActive} ${hover} w-full`}
+            >
+              <RiLogoutCircleLine /> Log out
+            </button>
           </div>
           <div
             data-aos="fade-up"

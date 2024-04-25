@@ -24,7 +24,7 @@ export const getAllCategoriesReducer = (state = { categories: [] }, action) => {
 
 // CREATE CATEGORY
 
-export const createCategoryReducer = (state = { categories: [] }, action) => {
+export const createCategoryReducer = (state = {}, action) => {
   switch (action.type) {
     case CategoriesConstants.CREATE_CATEGORY_REQUEST:
       return { isLoading: true };

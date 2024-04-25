@@ -7,7 +7,7 @@ import { DateFormat, shortUppercaseId } from "./Notifications/Empty";
 const Head = "text-xs text-left text-main font-semibold px-6 py-2 uppercase";
 const Text = "text-sm text-left leading-6 whitespace-nowrap px-5 py-3";
 
-const Rows = ({ data, users, onEditFunction, OnDeleteFunction }) => {
+const Rows = ({ data, users, OnEditFunction, OnDeleteFunction }) => {
   return (
     <tr>
       {users ? (
@@ -54,7 +54,7 @@ const Rows = ({ data, users, onEditFunction, OnDeleteFunction }) => {
           <td className={`${Text}`}>{data.title}</td>
           <td className={`${Text} float-right flex-rows gap-2`}>
             <button
-              onClick={() => onEditFunction(data?._id)}
+              onClick={(id) => OnEditFunction(data)}
               className="border border-border bd-dry flex-rows gap-2 text-border rounded py-1 px-2"
             >
               Edit <FaEdit />

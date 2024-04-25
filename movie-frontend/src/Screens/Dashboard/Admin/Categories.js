@@ -52,7 +52,7 @@ export default function Categories() {
     if (modalOpen === false) {
       setCategory();
     }
-  }, [modalOpen, dispatch, isError, isSuccess]);
+  }, [modalOpen, isError, isSuccess]);
   return (
     <SideBar>
       <CategoryModal
@@ -77,7 +77,7 @@ export default function Categories() {
           <Table2
             data={categories}
             users={false}
-            onEditFunction={onEditFunction}
+            OnEditFunction={onEditFunction}
             OnDeleteFunction={adminDeleteCategory}
           />
         ) : (

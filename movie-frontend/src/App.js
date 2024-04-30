@@ -1,4 +1,4 @@
-import React, { Profiler } from "react";
+import React, { Profiler, useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import HomeScreen from "./Screens/HomeScreen";
 import AboutUs from "./Screens/AboutUs";
@@ -25,8 +25,17 @@ import SidebarContext from "./Context/DrawerContext";
 import ToastContainer from "./Components/Notifications/ToastContainer";
 import DrawerContext from "./Context/DrawerContext";
 import { AdminProtectedRouter, ProtectedRouter } from "./ProtectedRouter";
+import { useDispatch } from "react-redux";
+import { getAllCategoriesAction } from "./Redux/Actions/CategoriesActions";
+import { getAllMoviesAction } from "./Redux/Actions/MoviesActions";
 function App() {
   AOS.init();
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getAllCategoriesAction());
+    dispatch(getAllMoviesAction({}));
+  });
+
   return (
     <>
       <DrawerContext>
@@ -38,6 +47,8 @@ function App() {
             <Route path="/about-us" element={<AboutUs />}></Route>
             <Route path="/contact-us" element={<ContactUs />}></Route>
             <Route path="/movies" element={<MoviesPage />}></Route>
+            <Route path="/movies/:search" element={<MoviesPage />}></Route>
+
             <Route path="/movie/:id" element={<SingleMovie />}></Route>
             <Route path="/watch/:id" element={<WatchPage />}></Route>
             <Route path="/login" element={<Login />}></Route>

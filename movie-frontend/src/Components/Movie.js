@@ -6,9 +6,13 @@ export default function Movie({ movie }) {
   return (
     <>
       <div className="border border-border p-1 hover:scale-95 transition relative rounded overflow-hidden">
-        <Link to={`movie/${movie.name}`} className="">
+        <Link to={`movie/${movie?._id}`} className="">
           <img
-            src={`/images/movies/${movie?.image}`}
+            src={
+              movie?.image
+                ? `/images/movies/${movie.image}`
+                : "/images/movies/99.jpg"
+            }
             alt={movie?.name}
             className="w-full h-64 object-cover"
           />

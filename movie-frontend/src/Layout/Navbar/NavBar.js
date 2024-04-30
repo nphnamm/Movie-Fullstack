@@ -1,16 +1,29 @@
-import React from "react";
-import { Link, NavLink } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { FaHeart, FaSearch } from "react-icons/fa";
 import { CgUser } from "react-icons/cg";
 import { useSelector } from "react-redux";
 
 function NavBar() {
+  const [search, setSearch] = useState("");
+  const navigate = useNavigate();
+
   const { userInfo } = useSelector((state) => state.userLogin);
   const { likedMovies } = useSelector((state) => state.userGetFavoriteMovies);
 
   const hover = "hover:text-subMain transitions text-white";
   const Hover = ({ isActive }) => (isActive ? "text-subMain" : hover);
   // console.log("check user infor", userInfo);
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (search.trim()) {
+      navigate(`/movies/${search}`);
+      setSearch(search);
+    } else {
+      navigate(`/movies`);
+    }
+  };
   return (
     <>
       <div className="bg-main shadow-md sticky top-0 z-20">
@@ -29,7 +42,10 @@ function NavBar() {
 
           {/* Search Form */}
           <div className="col-span-3">
-            <form className="w-full text-sm bg-dryGray rounded flex-btn gap-4">
+            <form
+              onSubmit={handleSearch}
+              className="w-full text-sm bg-dryGray rounded flex-btn gap-4"
+            >
               <button
                 type="submit"
                 className="bg-subMain w-12 flex-colo h-12 rounded text-white"
@@ -38,6 +54,8 @@ function NavBar() {
               </button>
               <input
                 type="text"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search Movie Name from here"
                 className="font-medium placeholder:text-border text-sm w-11/12 h-12 bg-transparent border-none px-2 text-black"
               />

@@ -23,6 +23,9 @@ const rootReducer = combineReducers({
 
   //Movie reducers
   getAllMovies: Movies.moviesListReducer,
+  getRandomMovies: Movies.moviesRandomReducer,
+  getMovieById: Movies.movieDetailsReducer,
+  getTopRatedMovies: Movies.movieTopRatedReducer,
 });
 
 //get userInfo from localStorage

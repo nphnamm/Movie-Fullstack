@@ -69,7 +69,7 @@ const moviesSchema = mongoose.Schema(
       default: 0,
     },
     reviews: [reviewSchema],
-    cast: [
+    casts: [
       {
         name: {
           type: String,

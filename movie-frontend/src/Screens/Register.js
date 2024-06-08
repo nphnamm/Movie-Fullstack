@@ -30,7 +30,7 @@ export default function Register() {
   console.log("check register", register);
   //on Submit
   const onSubmit = (data) => {
-    console.log("check data:", data);
+    // console.log("check data:", data);
     dispatch(registerAction(data));
   };
 

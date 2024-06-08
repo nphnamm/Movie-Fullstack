@@ -40,8 +40,8 @@ function HomeScreen() {
       toast.error("Something went wrong");
     }
   }, [dispatch, isError, randomError, topError]);
-  console.log("check top movie", topMovies);
-  console.log("check random movies", randomMovies);
+  // console.log("check top movie", topMovies);
+  // console.log("check random movies", randomMovies);
 
   return (
     <Layout>

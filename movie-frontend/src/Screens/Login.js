@@ -29,7 +29,7 @@ export default function Login() {
 
   //on Submit
   const onSubmit = (data) => {
-    console.log("check data:", data);
+    // console.log("check data:", data);
     dispatch(loginAction(data));
   };
 

@@ -39,9 +39,7 @@ export default function Categories() {
   };
 
   useEffect(() => {
-    // get all categories
     dispatch(getAllCategoriesAction());
-
     if (isError) {
       toast.error(isError);
       dispatch({

@@ -10,7 +10,7 @@ const uploadImageService = async (file, setLoading) => {
     return data;
   } catch (error) {
     setLoading(false);
-    console.log("Error:", error);
+    // console.log("Error:", error);
   }
 };
 export default uploadImageService;

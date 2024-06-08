@@ -20,7 +20,7 @@ export default function Profile() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { userInfo } = useSelector((state) => state.userLogin);
-  const [imageUrl, setImageUrl] = useState(userInfo ? userInfo.image : "");
+  const [imageUrl, setImageUrl] = useState(userInfo ? userInfo.images : "");
   const { isLoading, isError, isSuccess } = useSelector(
     (state) => state.userUpdateProfile
   );
@@ -40,7 +40,7 @@ export default function Profile() {
 
   //on Submit
   const updateUser = (data) => {
-    console.log("check data:", { ...data, image: imageUrl });
+    // console.log("check data:", { ...data, image: imageUrl });
     dispatch(updateProfileAction({ ...data, images: imageUrl }));
   };
 

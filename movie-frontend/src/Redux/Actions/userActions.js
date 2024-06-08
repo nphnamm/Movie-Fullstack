@@ -36,7 +36,7 @@ const logoutAction = () => (dispatch) => {
 
 // update profile action
 const updateProfileAction = (user) => async (dispatch, getState) => {
-  console.log("check token:", tokenProtection(getState));
+  // console.log("check token:", tokenProtection(getState));
 
   try {
     dispatch({ type: userConstants.USER_UPDATE_PROFILE_REQUEST });
@@ -163,6 +163,28 @@ const deleteUsersAction = (id) => async (dispatch, getState) => {
     ErrorsAction(error, dispatch, userConstants.GET_ALL_USERS_FAIL);
   }
 };
+
+//user like movie action
+const likeMovieAction = (movieId) => async (dispatch, getState) => {
+  console.log("check id", movieId);
+  try {
+    dispatch({ type: userConstants.LIKE_MOVIE_REQUEST });
+    const response = await userApi.likedMovieService(
+      movieId,
+      tokenProtection(getState)
+    );
+    dispatch({
+      type: userConstants.LIKE_MOVIE_SUCCESS,
+      payload: response,
+    });
+    toast.success("Movie added to your favorites");
+    dispatch(getFavoriteMoviesAction());
+  } catch (error) {
+    console.log("check error", error);
+    ErrorsAction(error, dispatch, userConstants.LIKE_MOVIE_FAIL);
+  }
+};
+
 export {
   loginAction,
   registerAction,
@@ -174,4 +196,5 @@ export {
   deleteFavoriteMoviesAction,
   getAllUsersAction,
   deleteUsersAction,
+  likeMovieAction,
 };

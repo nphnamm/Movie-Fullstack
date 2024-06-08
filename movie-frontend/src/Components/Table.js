@@ -2,22 +2,19 @@ import React from "react";
 import { FaCloudDownloadAlt, FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { GoEye } from "react-icons/go";
+import { Link } from "react-router-dom";
 
 const Head = "text-xs text-left text-main font-semibold px-6 py-2 uppercase";
 const Text = "text-sm text-left leading-6 whitespace-nowrap px-5 py-3";
 
-const Rows = (movie, i, admin) => {
+const Rows = (movie, i, onDeleteHandler, admin, downloadVideo, progress) => {
   return (
     <tr key={i}>
       <td className={`${Text}`}>
         <div className="w-12 p-1 bg-dry border border-border h-12 rounded overflow-hidden">
           <img
             className="h-full w-full object-cover"
-            src={
-              movie?.image
-                ? `/images/movies/${movie.image}`
-                : "/images/movies/99.jpg"
-            }
+            src={movie?.image ? movie?.image : "/images/movies/99.jpg"}
             alt={movie?.name}
           />
         </div>
@@ -30,16 +27,26 @@ const Rows = (movie, i, admin) => {
       <td className={`${Text} float-right flex-rows gap-2`}>
         {admin ? (
           <>
-            <button className="border border-border bd-dry flex-rows gap-2 text-border rounded py-1 px-2">
-              Edit <FaEdit />
-            </button>
-            <button className="bg-subMain text-white rounded flex-colo w-7 h-7">
+            <Link
+              to={`/edit/${movie?._id}`}
+              className="border border-border bd-dry flex-rows gap-2 text-border rounded py-1 px-2"
+            >
+              Edit <FaEdit className="text-green-500" />
+            </Link>
+            <button
+              onClick={() => onDeleteHandler(movie._id)}
+              className="bg-subMain text-white rounded flex-colo w-7 h-7"
+            >
               <MdDelete />
             </button>
           </>
         ) : (
           <>
-            <button className="border border-border bd-dry flex-rows gap-2 text-border rounded py-1 px-2">
+            <button
+              onClick={() => downloadVideo(movie?.video, movie?.name)}
+              disabled={progress > 0 && progress < 100}
+              className="border border-border bd-dry flex-rows gap-2 text-border rounded py-1 px-2"
+            >
               Download <FaCloudDownloadAlt className="text-green-500" />
             </button>
             <button className="bg-subMain text-white rounded flex-colo w-7 h-7">
@@ -51,7 +58,13 @@ const Rows = (movie, i, admin) => {
     </tr>
   );
 };
-export default function Table({ data, admin }) {
+export default function Table({
+  data,
+  admin,
+  onDeleteHandler,
+  downloadVideo,
+  progress,
+}) {
   return (
     <div className="overflow-x-scroll overflow-hidden relative w-full">
       <table className="w-full table-auto border border-border divide-y divide-border">
@@ -81,7 +94,9 @@ export default function Table({ data, admin }) {
           </tr>
         </thead>
         <tbody className="bg-main divide-y divide-gray-800">
-          {data.map((item, index) => Rows(item, index, admin))}
+          {data.map((item, index) =>
+            Rows(item, index, onDeleteHandler, admin, downloadVideo, progress)
+          )}
         </tbody>
       </table>
     </div>

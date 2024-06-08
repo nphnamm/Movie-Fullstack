@@ -61,19 +61,19 @@ const changePasswordService = async (password, token) => {
       Authorization: `Bearer ${token}`,
     },
   });
-  console.log("check data", data);
+  // console.log("check data", data);
   return data;
 };
 
 //get all favorite movies
 const getFavoriteMoviesService = async (token) => {
-  console.log("check token", token);
+  // console.log("check token", token);
   const { data } = await Axios.get("/users/favorities", {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   });
-  console.log("check error data", data);
+  // console.log("check error data", data);
   return data;
 };
 //delete all favorite movies
@@ -107,6 +107,18 @@ const deleteUserService = async (id, token) => {
   });
   return data;
 };
+
+// like movie API call
+
+const likedMovieService = async (movieId, token) => {
+  console.log("check movieId: ", movieId);
+  const { data } = await Axios.post(`/users/favorities`, movieId, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return data;
+};
 export {
   registerService,
   loginService,
@@ -118,4 +130,5 @@ export {
   deleteFavoriteMoviesService,
   getAllUserService,
   deleteUserService,
+  likedMovieService,
 };

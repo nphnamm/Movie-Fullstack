@@ -6,12 +6,13 @@ import Title from "./../Title";
 import { UsersData } from "../../Data/UsersData";
 
 export default function MovieCasts({ movie }) {
-  console.log("check movie", movie);
-  const castLength = movie?.cast?.length;
-  console.log("check length", castLength);
+   console.log("check movie", movie);
+  const castLength = movie?.casts?.length;
+  // console.log("check length", castLength);
+  
 
   return (
-    movie?.cast?.length > 0 && (
+    movie?.casts?.length > 0 && (
       <div className="my-12 ">
         <Title title="Cast" Icon={FaUserFriends} />
         <div className="mt-10">
@@ -35,25 +36,21 @@ export default function MovieCasts({ movie }) {
                 slidesPerView: 3,
               },
               1024: {
-                slidesPerView: movie?.cast?.length,
+                slidesPerView: movie?.casts?.length,
               },
               1280: {
-                slidesPerView: movie?.cast?.length,
+                slidesPerView: movie?.casts?.length,
                 spaceBetween: 30,
               },
             }}
           >
-            {movie?.cast?.map((cast) => (
+            {movie?.casts?.map((cast) => (
               <SwiperSlide key={cast?._id}>
                 <div className="w-full p-3 italic text-xs text-text rounded flex-colo bg-dry border-gray-800">
                   <img
-                    src={
-                      cast?.image
-                        ? `/images/${cast?.image}`
-                        : "/images/user.png"
-                    }
+                    src={cast?.image ? cast?.image : "/images/user.png"}
                     alt={cast?.name}
-                    className="w-full h-64 object-cover rounded mb-4"
+                    className="w-full h-64 object-scale-down rounded mb-4"
                   />
                   <p>{cast?.name}</p>
                 </div>

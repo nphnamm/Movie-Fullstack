@@ -1,29 +1,62 @@
-import React from "react";
+import React, { useEffect } from "react";
 import SideBar from "../SideBar";
 import { FaRegListAlt, FaUser } from "react-icons/fa";
 import { HiViewGrid } from "react-icons/hi";
 import { Movies } from "../../../Data/MoviesData";
 import Table from "../../../Components/Table";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllUsersAction } from "../../../Redux/Actions/userActions";
+import { getAllMoviesAction } from "../../../Redux/Actions/MoviesActions";
+import { getAllCategoriesAction } from "../../../Redux/Actions/CategoriesActions";
+import toast from "react-hot-toast";
+import Loader from "../../../Components/Notifications/Loader";
+import { Empty } from "../../../Components/Notifications/Empty";
 
 export default function Dashboard() {
+  const dispatch = useDispatch();
+  const {
+    isLoading: catLoading,
+    isError: catError,
+    categories,
+  } = useSelector((state) => state.categoryGetAll);
+
+  const {
+    isLoading: userLoading,
+    isError: userError,
+    users,
+  } = useSelector((state) => state.adminGetAllUsers);
+  const { isLoading, isError, movies, totalMovies } = useSelector(
+    (state) => state.getAllMovies
+  );
+  console.log("movies", totalMovies);
+
+  // useEffect
+  useEffect(() => {
+    //get random movies
+    dispatch(getAllUsersAction());
+
+    if (isError || catError || userError) {
+      toast.error("Something went wrong");
+    }
+  }, [dispatch, isError, catError, userError]);
   const DashboardData = [
     {
       bg: "bg-orange-600",
       icon: FaRegListAlt,
       title: "Total Movies",
-      total: 90,
+      total: isLoading ? "Loading..." : totalMovies || 0,
     },
     {
       bg: "bg-blue-700",
       icon: HiViewGrid,
       title: "Total Categories",
-      total: 8,
+      total: catLoading ? "Loading ..." : categories?.length || 0,
     },
     {
       bg: "bg-green-600",
       icon: FaUser,
       title: "Total Users",
-      total: 134,
+      total: userLoading ? "Loading ..." : users?.length || 0,
     },
   ];
   return (
@@ -48,7 +81,13 @@ export default function Dashboard() {
         ))}
       </div>
       <h3 className="text-md font-medium my-6 text-border">Recent Movies</h3>
-      <Table data={Movies.slice(0, 5)} admin={true} />
+      {isLoading ? (
+        <Loader />
+      ) : movies?.length > 0 ? (
+        <Table data={movies?.slice(0, 5)} admin={false} />
+      ) : (
+        <Empty message="Empty" />
+      )}{" "}
     </SideBar>
   );
 }

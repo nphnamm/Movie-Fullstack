@@ -26,7 +26,7 @@ export default function Uploder({ setImageUrl }) {
       onDrop,
     });
   return (
-    <div className="w-full text-center flex-colo gap-6">
+    <div className="w-full text-center gap-6">
       {loading ? (
         <div className="px-6 w-full py-8 border-border border-dashed bg-dry rounded-md">
           <Loader />

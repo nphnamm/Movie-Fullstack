@@ -16,7 +16,7 @@ const Rows = ({ data, users, OnEditFunction, OnDeleteFunction }) => {
             <div className="w-12 p-1 bg-dry border border-border h-12 rounded overflow-hidden">
               <img
                 className="h-full w-full object-cover"
-                src={`${data?.images ? data.images : "user.png"}`}
+                src={`${data?.images ? data.images : "/images/user.png"}`}
                 alt={data?.fullName}
               />
             </div>
@@ -77,7 +77,7 @@ export default function Table2({
   OnEditFunction,
   OnDeleteFunction,
 }) {
-  console.log("check user", data);
+  // console.log("check user", data);
 
   return (
     <div className="overflow-x-scroll overflow-hidden relative w-full">

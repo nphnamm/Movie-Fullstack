@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Movies } from "../Data/MoviesData";
 import Layout from "./../Layout/Layout";
@@ -13,9 +13,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { getMovieByIdAction } from "../Redux/Actions/MoviesActions";
 import Loader from "../Components/Notifications/Loader";
 import { RiMovie2Fill, RiMovie2Line } from "react-icons/ri";
+import { SidebarContext } from "../Context/DrawerContext";
+import { DownloadVideo } from "../Context/Functionalities";
+import FileSaver from "file-saver";
 
 export default function SingleMovie() {
   const [modalOpen, setModalOpen] = useState(false);
+  const { progress, setProgress } = useContext(SidebarContext);
+
   const { id } = useParams();
   const dispatch = useDispatch();
   const {
@@ -36,12 +41,20 @@ export default function SingleMovie() {
     // Lọc theo cùng category
     return movie?.category === currentMovie?.category;
   });
+
+  //download movie video
+  const DownloadMovieVideo = async (videoUrl, name) => {
+    await DownloadVideo(videoUrl, setProgress).then((data) => {
+      setProgress(0);
+      FileSaver.saveAs(data, name);
+    });
+  };
+
   useEffect(() => {
     //movie id
     dispatch(getMovieByIdAction(id));
   }, [dispatch, id]);
   // console.log("check id", id);
-  // console.log("check movie", movie);
 
   return (
     <Layout>
@@ -63,7 +76,12 @@ export default function SingleMovie() {
             setModalOpen={setModalOpen}
             movie={currentMovie}
           />
-          <MovieInfo movie={currentMovie} setModalOpen={setModalOpen} />
+          <MovieInfo
+            movie={currentMovie}
+            setModalOpen={setModalOpen}
+            DownloadVideo={DownloadMovieVideo}
+            progress={progress}
+          />
           <div className="container mx-auto min-h-screen px-2 my-6">
             <MovieCasts movie={currentMovie} />
             {/*Rate*/}

@@ -20,7 +20,7 @@ function MobileFooter() {
 
   return (
     <>
-      <div className="flex flex-col h-full justify-between align-middle bg-white rounded cursor-pointer overflow-y-scroll flex-grow w-full">
+      <div className="flex-btn h-full bg-whit rounded cursor-pointer overflow-y-scroll flex-grow w-full z-100">
         <MenuDrawer drawerOpen={mobileDrawer} toggleDrawer={toggleDrawer} />
         {/* <MainDrawer drawerOpen={mobileDrawer} toggleDrawer={toggleDrawer} /> */}
       </div>

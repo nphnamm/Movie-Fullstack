@@ -7,7 +7,7 @@ function MenuDrawer({ drawerOpen, toggleDrawer }) {
   // console.log("drawer open", drawerOpen);
   return (
     <MainDrawer drawerOpen={drawerOpen} closeDrawer={toggleDrawer}>
-      <div className="flex flex-col w-full h-full justify-between items-center bg-main text-white rounded">
+      <div className="flex w-full h-full justify-between items-center bg-main text-white rounded">
         <div className="w-full flex-btn h-16 px-6 py-4 bg-dry">
           <Link onClick={toggleDrawer} to="/">
             <img

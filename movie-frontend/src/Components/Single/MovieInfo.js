@@ -4,15 +4,16 @@ import { FaPlay, FaShareAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { FiLogIn } from "react-icons/fi";
 import Rating from "../Stars";
-export default function MovieInfo({ movie, setModalOpen }) {
+export default function MovieInfo({
+  movie,
+  setModalOpen,
+  DownloadVideo,
+  progress,
+}) {
   return (
     <div className="w-full xl:h-screen relative text-white">
       <img
-        src={
-          movie?.image
-            ? `/images/movies/${movie.image}`
-            : "/images/movies/99.jpg"
-        }
+        src={movie?.titleImage ? movie?.titleImage : "/images/movies/99.jpg"}
         alt={movie?.name}
         className="w-full h-full xl:inline-block object-cover"
       />
@@ -21,11 +22,7 @@ export default function MovieInfo({ movie, setModalOpen }) {
         <div className="container px-3 mx-auto 2xl:px-32 xl:grid grid-cols-3 flex-colo py-10 lg:py-20 gap-8">
           <div className="xl:col-span-1 w-full xl:order-none order-last h-header bg-dry border border-gray-800 rounded-lg overflow-hidden">
             <img
-              src={
-                movie?.image
-                  ? `/images/movies/${movie.image}`
-                  : "/images/movies/99.jpg"
-              }
+              src={movie?.image ? movie?.image : "/images/movies/99.jpg"}
               alt={movie?.name}
               className="w-full h-full object-cover"
             />
@@ -65,7 +62,7 @@ export default function MovieInfo({ movie, setModalOpen }) {
                 {/*watch button*/}
                 <div className="sm:col-span-2 col-span-3 flex justify-end font-medium text-sm">
                   <Link
-                    to={`/watch/${movie?.name}`}
+                    to={`/watch/${movie?._id}`}
                     className="bg-dry py-4 hover:bg-subMain transition border-2 border-subMain rounded-full flex-rows gap-4 w-full sm:py-3"
                   >
                     <FaPlay /> Watch
@@ -78,7 +75,11 @@ export default function MovieInfo({ movie, setModalOpen }) {
               </div>
             </div>
             <div className="col-span-2 md:mt-0 mt-2 flex justify-end">
-              <button className="md:w-1/4 w-full relative flex-colo bg-subMain hover:bg-transparent border-2 border-subMain transition md:h-64 h-20 rounded font-medium">
+              <button
+                disabled={progress}
+                onClick={() => DownloadVideo(movie?.video, movie?.name)}
+                className="md:w-1/4 w-full relative flex-colo bg-subMain hover:bg-transparent border-2 border-subMain transition md:h-64 h-20 rounded font-medium"
+              >
                 <div className="flex-rows gap-6 text-md uppercase tracking-widest absolute md:rotate-90">
                   Download <FiLogIn className="w-6 h-6" />
                 </div>

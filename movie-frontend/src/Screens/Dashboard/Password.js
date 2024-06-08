@@ -28,7 +28,7 @@ export default function Password() {
   });
 
   //ob submit
-  const obSubmit = (data) => {
+  const onSubmit = (data) => {
     console.log("check password ", data);
     dispatch(changePasswordAction(data));
   };
@@ -50,7 +50,7 @@ export default function Password() {
 
   return (
     <SideBar>
-      <form onSubmit={handleSubmit(obSubmit)} className="flex flex-col gap-6">
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
         <h2 className="text-xl font-bold">Change Password</h2>
 
         <div className="w-full">

@@ -1,7 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import SideBar from "./SideBar";
 import Table from "../../Components/Table";
-import { Movies } from "../../Data/MoviesData";
 import { useDispatch, useSelector } from "react-redux";
 import {
   deleteFavoriteMoviesAction,
@@ -10,9 +9,14 @@ import {
 import toast from "react-hot-toast";
 import Loader from "../../Components/Notifications/Loader";
 import { Empty } from "./../../Components/Notifications/Empty";
+import FileSaver from "file-saver";
+import { SidebarContext } from "../../Context/DrawerContext";
+import { DownloadVideo } from "../../Context/Functionalities";
 
 export default function FavoritiesMovies() {
   const dispatch = useDispatch();
+  const { progress, setProgress } = useContext(SidebarContext);
+
   const { isLoading, isError, likedMovies } = useSelector(
     (state) => state.userGetFavoriteMovies
   );
@@ -28,6 +32,14 @@ export default function FavoritiesMovies() {
   const deleteMoviesHandler = () => {
     window.confirm("Are you sure you want to delete all movies") &&
       dispatch(deleteFavoriteMoviesAction());
+  };
+
+  //download movie video
+  const DownloadMovieVideo = async (videoUrl, name) => {
+    await DownloadVideo(videoUrl, setProgress).then((data) => {
+      setProgress(0);
+      FileSaver.saveAs(data, name);
+    });
   };
   useEffect(() => {
     dispatch(getFavoriteMoviesAction());
@@ -63,7 +75,12 @@ export default function FavoritiesMovies() {
         {isLoading ? (
           <Loader />
         ) : likedMovies?.length > 0 ? (
-          <Table data={likedMovies} admin={false} />
+          <Table
+            data={likedMovies}
+            admin={false}
+            downloadVideo={DownloadMovieVideo}
+            progress={progress}
+          />
         ) : (
           <Empty message="No Movies found" />
         )}

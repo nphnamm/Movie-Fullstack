@@ -88,7 +88,7 @@ export default function MoviesPage() {
     year: year,
     setYear: setYear,
   };
-  console.log("check search: ", search);
+  // console.log("check search: ", search);
   return (
     <Layout>
       <div className="min-height-screen container mx-auto px-2 my-6">

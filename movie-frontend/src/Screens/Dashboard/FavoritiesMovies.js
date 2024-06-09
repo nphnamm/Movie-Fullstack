@@ -3,6 +3,7 @@ import SideBar from "./SideBar";
 import Table from "../../Components/Table";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  deleteFavoriteMovieByIdAction,
   deleteFavoriteMoviesAction,
   getFavoriteMoviesAction,
 } from "../../Redux/Actions/userActions";
@@ -28,12 +29,31 @@ export default function FavoritiesMovies() {
     isSuccess: deleteSuccess,
   } = useSelector((state) => state.userDeleteFavoriteMovies);
 
+  const {
+    isLoading: deleteLikedMovieLoading,
+    isError: deleteLikedMovieError,
+    isSuccess: deleteLikedMovieSuccess,
+  } = useSelector((state) => state.deleteLikedMovie);
+
+
+
   //delete movies handler
   const deleteMoviesHandler = () => {
     window.confirm("Are you sure you want to delete all movies") &&
       dispatch(deleteFavoriteMoviesAction());
   };
+  const DeleteHandler =(id) => {
+    window.confirm("Are you sure you want to delete all movies") &&
+          dispatch(deleteFavoriteMovieByIdAction(id));
+    if (deleteLikedMovieSuccess) {
+      toast.success("Delete Favorite Movie Success!");
+    } else {
+      toast.error("Error when delete!");
+    }
 
+    
+
+  };
   //download movie video
   const DownloadMovieVideo = async (videoUrl, name) => {
     await DownloadVideo(videoUrl, setProgress).then((data) => {
@@ -44,7 +64,7 @@ export default function FavoritiesMovies() {
   useEffect(() => {
     dispatch(getFavoriteMoviesAction());
     if (isError || deleteError) {
-      toast.error(isError || deleteError);
+      toast.error(isError || deleteError || deleteLikedMovieError);
       dispatch({
         type: isError
           ? "USER_GET_FAVORITE_MOVIES_RESET"
@@ -54,9 +74,9 @@ export default function FavoritiesMovies() {
     // if (isSuccess) {
     //   reset();
     // }
-  }, [dispatch, isError, deleteError, deleteSuccess]);
+  }, [dispatch, isError, deleteError, deleteSuccess, deleteLikedMovieError,deleteLikedMovieLoading,deleteLikedMovieSuccess]);
 
-  console.log("check like movie ", deleteSuccess);
+  // console.log("check like movie ", deleteSuccess);
   return (
     <SideBar>
       <div className="flex flex-col gap-6">
@@ -78,6 +98,7 @@ export default function FavoritiesMovies() {
           <Table
             data={likedMovies}
             admin={false}
+            onDeleteHandler={DeleteHandler}
             downloadVideo={DownloadMovieVideo}
             progress={progress}
           />

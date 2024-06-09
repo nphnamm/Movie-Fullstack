@@ -161,6 +161,30 @@ export const userDeleteFavoriteMoviesReducer = (state = {}, action) => {
   }
 };
 
+//DELETE FAVORITE MOVIE BY ID
+export const userDeleteFavoriteMovieReducer = (state = {}, action) => {
+  switch (action.type) {
+    case userConstants.USER_DELETE_FAVORITE_MOVIES_BY_ID_REQUEST:
+      return { isLoading: true };
+
+    case userConstants.USER_DELETE_FAVORITE_MOVIES_BY_ID_SUCCESS:
+      return {
+        isLoading: false,
+        likedMovies: action.payload,
+        isSuccess: true,
+      };
+
+    case userConstants.USER_DELETE_FAVORITE_MOVIES_BY_ID_FAIL:
+      console.log('check', action.payload);
+      return { isLoading: false, isError: action.payload };
+    case userConstants.USER_DELETE_FAVORITE_MOVIES_BY_ID_RESET:
+      return {};
+
+    default:
+      return state;
+  }
+};
+
 // ADMIN GET ALL USERS
 
 export const adminGetAllUserReducer = (state = { users: [] }, action) => {

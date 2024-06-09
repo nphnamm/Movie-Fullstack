@@ -31,6 +31,8 @@ export default function Register() {
   //on Submit
   const onSubmit = (data) => {
     // console.log("check data:", data);
+
+    
     dispatch(registerAction(data));
   };
 
@@ -47,9 +49,10 @@ export default function Register() {
     }
     if (isError) {
       toast.error(isError);
+      console.log('check isError', isError)
       dispatch({ type: "USER_LOGIN_RESET" });
     }
-  });
+  },[userInfo,isError]);
 
   return (
     <Layout>

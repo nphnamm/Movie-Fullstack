@@ -111,7 +111,7 @@ const deleteUserService = async (id, token) => {
 // like movie API call
 
 const likedMovieService = async (movieId, token) => {
-  console.log("check movieId: ", movieId);
+  // console.log("check movieId: ", movieId);
   const { data } = await Axios.post(`/users/favorities`, movieId, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -119,6 +119,17 @@ const likedMovieService = async (movieId, token) => {
   });
   return data;
 };
+
+const deleteFavoritesMovieService = async (movieId,token) => {
+  console.log("token", token);
+    const { data } = await Axios.delete(`/users/favoritesMovie/${movieId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  console.log('check data', data);
+  return data;
+}
 export {
   registerService,
   loginService,
@@ -128,6 +139,7 @@ export {
   changePasswordService,
   getFavoriteMoviesService,
   deleteFavoriteMoviesService,
+  deleteFavoritesMovieService,
   getAllUserService,
   deleteUserService,
   likedMovieService,

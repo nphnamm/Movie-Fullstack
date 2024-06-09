@@ -6,7 +6,7 @@ import Title from "./../Title";
 import { UsersData } from "../../Data/UsersData";
 
 export default function MovieCasts({ movie }) {
-   console.log("check movie", movie);
+  //  console.log("check movie", movie);
   const castLength = movie?.casts?.length;
   // console.log("check length", castLength);
   

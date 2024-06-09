@@ -305,7 +305,36 @@ const addToLikedMovies = async (req, res) => {
     return res.json({ msg: "Error adding movie to the liked list" });
   }
 };
+const deleteLikedMoviesById = async (req, res) => {
+ const  movieId = req.params.movieId;
 
+ try {
+   //find user in DB
+   const user = await User.findById(req.user._id);
+
+   // if user exits add movie to liked movies and save it in DB
+   if (user) {
+     // //check if movie already liked
+      const isMovieLiked = user.likedMovies.filter((movie) => movie.toString() !== movieId);
+
+     //if movie already liked send error message
+
+     if (user.likedMovies.includes(movieId)) {
+       user.likedMovies = [...isMovieLiked];
+       await user.save();
+     return res.status(201).json({ message: "delete movie successfully"});
+     }
+
+
+
+
+   } else {
+     res.status(400).json({ message: "User Not Found!" });
+   }
+ } catch (error) {
+   res.status(400).json({ message: error });
+ }
+};
 export {
   registerUser,
   loginUser,
@@ -318,4 +347,5 @@ export {
   getUsers,
   deleteUser,
   addToLikedMovies,
+  deleteLikedMoviesById,
 };

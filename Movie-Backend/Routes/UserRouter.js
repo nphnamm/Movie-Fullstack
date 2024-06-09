@@ -11,6 +11,7 @@ import {
   getUsers,
   deleteUser,
   addToLikedMovies,
+  deleteLikedMoviesById
 } from "../Controllers/UserController.js";
 import { protect, admin } from "../Middlewares/Auth.js";
 const router = express.Router();
@@ -28,6 +29,7 @@ router.get("/favorities", protect, getLikedMovies);
 router.post("/favorities", protect, addLikedMovies);
 router.delete("/favorities", protect, deleteLikedMovies);
 router.post("/add", addToLikedMovies);
+router.delete("/favoritesMovie/:movieId",protect, deleteLikedMoviesById);
 
 
 // ********* ADMIN ROUTES ************

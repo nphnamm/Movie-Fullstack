@@ -1,13 +1,15 @@
 import React from "react";
 import { FaCloudDownloadAlt, FaEdit } from "react-icons/fa";
-import { MdDelete } from "react-icons/md";
 import { GoEye } from "react-icons/go";
+import { MdDelete } from "react-icons/md";
+
 import { Link } from "react-router-dom";
 
 const Head = "text-xs text-left text-main font-semibold px-6 py-2 uppercase";
 const Text = "text-sm text-left leading-6 whitespace-nowrap px-5 py-3";
 
 const Rows = (movie, i, onDeleteHandler, admin, downloadVideo, progress) => {
+  // console.log('check movie', movie);
   return (
     <tr key={i}>
       <td className={`${Text}`}>
@@ -34,7 +36,7 @@ const Rows = (movie, i, onDeleteHandler, admin, downloadVideo, progress) => {
               Edit <FaEdit className="text-green-500" />
             </Link>
             <button
-              onClick={() => onDeleteHandler(movie._id)}
+              onClick={() => onDeleteHandler(movie?._id)}
               className="bg-subMain text-white rounded flex-colo w-7 h-7"
             >
               <MdDelete />
@@ -49,8 +51,11 @@ const Rows = (movie, i, onDeleteHandler, admin, downloadVideo, progress) => {
             >
               Download <FaCloudDownloadAlt className="text-green-500" />
             </button>
-            <button className="bg-subMain text-white rounded flex-colo w-7 h-7">
-              <GoEye />
+            <button
+              onClick={() => onDeleteHandler(movie?._id)}
+              className="bg-subMain text-white rounded flex-colo w-7 h-7"
+            >
+              <MdDelete />
             </button>
           </>
         )}

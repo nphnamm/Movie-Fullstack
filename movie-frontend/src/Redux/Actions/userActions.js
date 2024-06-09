@@ -121,7 +121,7 @@ const deleteFavoriteMoviesAction = () => async (dispatch, getState) => {
     dispatch({
       type: userConstants.USER_DELETE_FAVORITE_MOVIES_SUCCESS,
     });
-    toast.success("Favorite Movies Deleted");
+    toast.success("All Favorite Movies Deleted");
   } catch (error) {
     ErrorsAction(
       error,
@@ -131,6 +131,25 @@ const deleteFavoriteMoviesAction = () => async (dispatch, getState) => {
     console.log("check error", error);
   }
 };
+
+const deleteFavoriteMovieByIdAction = (id) => async (dispatch, getState) => {
+  try {
+    dispatch({ type: userConstants.USER_DELETE_FAVORITE_MOVIES_BY_ID_REQUEST });
+    await userApi.deleteFavoritesMovieService(id, tokenProtection(getState))
+    dispatch({
+      type: userConstants.USER_DELETE_FAVORITE_MOVIES_BY_ID_SUCCESS,
+    });
+    toast.success("Favorite Movie Delete")
+    
+  } catch (error) {
+        ErrorsAction(
+          error,
+          dispatch,
+          userConstants.USER_DELETE_FAVORITE_MOVIES_FAIL
+        );
+        console.log("check error", error);
+  }
+}
 
 //admin get all users action
 const getAllUsersAction = () => async (dispatch, getState) => {
@@ -194,6 +213,7 @@ export {
   changePasswordAction,
   getFavoriteMoviesAction,
   deleteFavoriteMoviesAction,
+  deleteFavoriteMovieByIdAction,
   getAllUsersAction,
   deleteUsersAction,
   likeMovieAction,

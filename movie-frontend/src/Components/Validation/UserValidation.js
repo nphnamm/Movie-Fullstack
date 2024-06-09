@@ -25,7 +25,6 @@ const RegisterValidation = yup.object().shape({
     .string()
     .required("Full name is required")
     .max(20, "Full name must be less than 20 characters")
-    .matches(/^[a-zA-Z]*$/, "Full name must contain only letters"),
 });
 const ProfileValidation = yup.object().shape({
   email: yup.string().email().required("Email is required").trim(),
